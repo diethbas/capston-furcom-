@@ -85,15 +85,15 @@
         </div>
 
         <!-- Tab Content -->
-        <ul class="flex justify-center flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 max-w-screen-lg mx-auto" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+        <ul class="flex justify-center flex-wrap text-sm font-medium text-center  text-gray-400 border-b  border-gray-700 max-w-screen-lg mx-auto" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
             <li class="mr-2">
-                <button id="furbabies-tab" data-tabs-target="#furbabies" type="button" role="tab" aria-controls="furbabies" aria-selected="true" class="inline-block p-4 border-b-2 rounded-t-lg text-gray-900 border-blue-600 dark:text-white dark:border-blue-500">Furbabies</button>
+                <button id="furbabies-tab" data-tabs-target="#furbabies" type="button" role="tab" aria-controls="furbabies" aria-selected="true" class="inline-block p-4 border-b-2 rounded-t-lg   text-white border-blue-500">Furbabies</button>
             </li>
             <li class="mr-2">
-                <button id="media-tab" data-tabs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="false" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">Media</button>
+                <button id="media-tab" data-tabs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="false" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg  hover:border-gray-300 hover:text-gray-300">Media</button>
             </li>
             <li class="mr-2">
-                <button id="pack-tab" data-tabs-target="#pack" type="button" role="tab" aria-controls="pack" aria-selected="false" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">Troop</button>
+                <button id="pack-tab" data-tabs-target="#pack" type="button" role="tab" aria-controls="pack" aria-selected="false" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg  border-gray-300 hover:text-gray-300">Troop</button>
             </li>
         </ul>
 
@@ -117,7 +117,7 @@
 
             <!-- Media Content -->
             <div class="hidden p-4" id="media" role="tabpanel" aria-labelledby="media-tab">
-                <section class="py-8"> <!-- Add bg-opacity class here -->
+                <section class="py-8"> 
                     <div class="max-w-screen-lg mx-auto px-4">
                         <div class="grid grid-cols-3 gap-1">
                             <div class="relative group">
@@ -135,7 +135,7 @@
 
             <!-- Troop Content -->
             <div class="hidden p-4" id="pack" role="tabpanel" aria-labelledby="pack-tab">
-                <section class="py-8"> <!-- Add bg-opacity class here -->
+                <section class="py-8"> 
                     <div class="max-w-screen-lg mx-auto px-4">
                         <div class="grid grid-cols-3 gap-1">
                             <div class="relative group">

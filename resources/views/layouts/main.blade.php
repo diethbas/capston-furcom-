@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Furcom</title>
 </head>
-<body>
+<body class="bg-gray-900">
     @if ($isShowNavBar)
     @include('components.navbar')
     @endif

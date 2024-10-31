@@ -11,7 +11,7 @@
 </head>
 <body class="bg-gray-900">
     <!-- Navigation Bar -->
-    <nav class="sticky top-0 py-0.5 border-b border-gray-200 shadow-sm dark:bg-gray-900 dark:border-white dark:shadow-[0_1px_2px_rgba(255,255,255,0.1)] shadow-[0_1px_2px_rgba(0,0,0,0.05)] z-50">
+    <nav class="sticky top-0 py-0.5 border-b  shadow-sm bg-gray-900 border-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] z-50">
         <div class="max-w-screen-xl flex items-center justify-between mx-auto p-1.5">
 
             <!-- Logo-->

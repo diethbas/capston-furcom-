@@ -24,16 +24,12 @@
                     @else
                     <img class="w-full h-full object-cover" src="{{$item['img']}}" alt="Media Image 1">
                     @endif
-                    <!-- Name Label with Green Circle -->
-                    <div class="absolute top-2 left-2 flex items-center space-x-1">
-                        <!-- Green Circle -->
-                        <div class="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
-                        <!-- Name Label -->
-                        <span class="text-white text-s font-semibold">{{$item['firstname']}}</span>
-                    </div>
-
                     <!-- Hover Overlay -->
                     <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex justify-center items-center transition-opacity duration-300"></div>
+                    <!-- Name Label  -->
+                    <div class="absolute top-2 left-2 flex items-center space-x-1">
+                        <span class="text-gray-100 text-lg font-semibold">{{$item['firstname']}}</span>
+                    </div>    
                 </div>
             @endforeach
         </div>

@@ -1,6 +1,6 @@
 <!-- Reply Modal -->
 <div id="replyModal" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center md:justify-end md:items-end bg-black bg-opacity-50">
-    <div class="relative w-full md:max-w-xs bg-white bg-opacity-90 rounded-lg shadow dark:bg-gray-800 md:mr-10 md:mb-10 h-96 flex flex-col">
+    <div class="relative w-full md:max-w-xs  bg-opacity-90 rounded-lg shadow bg-gray-800 md:mr-10 md:mb-10 h-96 flex flex-col">
         <div class="p-4 border-b dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Reply to Message</h3>
             <button type="button" class="absolute top-3 right-3 text-gray-400 hover:text-gray-900 bg-transparent hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="replyModal">

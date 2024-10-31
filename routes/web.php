@@ -47,7 +47,7 @@ Route::get('/contact', function () {
 Route::middleware(['web'])->group(function () {
     Route::get('/signup', function () {
         return view('signup', [
-            'isShowNavBar' => true,
+            'isShowNavBar' => false,
             'isShowFooter' => false,
         ]);
     })->name('signup');
