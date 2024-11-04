@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-{{phpinfo()}}
 <!-- Hero Section -->
     <section class="bg-gradient-to-tr from-gray-900 via-gray-900 to-purple-900">
         <div class="container px-6 py-16 mx-auto text-center">
