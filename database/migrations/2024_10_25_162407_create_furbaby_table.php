@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigIncrements('furbabyID');
             $table->string('name');
             $table->integer('age');
+            $table->boolean('ismissing')->default(false);
             $table->text('description');
             $table->string('img');
             $table->unsignedBigInteger('furparentID');

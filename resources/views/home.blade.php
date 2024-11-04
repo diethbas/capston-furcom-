@@ -109,19 +109,15 @@
     @if(request()->has('qrProfile'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Initialize the modal (if using a specific library like Flowbite)
-                const modal = new Modal(document.getElementById('bigModal'));
-                const modal2 = new Modal(document.getElementById('messageModal'));
-                modal.show();
+                window._.furbabyModal.showModal({{request()->qrProfile}});
             });
         </script>
     @endif
-    <div id="bigModal" tabindex="-1" aria-hidden="true" class="fixed inset-0 z-50 hidden flex items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto bg-black bg-opacity-50">
+    
+    <div id="bigModal" tabindex="-1" aria-hidden="true" class="fixed inset-0 z-50 hidden flex items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto">
         <div class="relative w-full max-w-7xl mx-auto h-full">
             <div class="relative bg-gray-800 rounded-lg shadow-lg flex flex-col md:flex-row h-full overflow-hidden">
-                
-                <!-- Close Button (X) -->
-                <button type="button" class="absolute top-4 right-3 text-gray-400 hover:text-white" data-modal-hide="bigModal">
+                <button type="button" class="absolute top-4 right-3 text-gray-400 hover:text-white" data-modal-hide="bigModal" onclick="document.getElementById('bigModal').classList.add('hidden')">
                     <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -130,32 +126,32 @@
                 
                 <!-- Left Column -->
                 <div class="w-full md:w-[30%] bg-gray-700 p-8 flex flex-col items-center justify-start relative">
-                    <!-- Profile Circle -->
-                    <div class="w-40 h-40 bg-gray-500 rounded-full flex items-center justify-center mb-4 mt-8">
-                        <img src="/img/pet.png" alt="Profile Picture" class="w-full h-full rounded-full object-cover">
+    
+                    <label class="w-40 h-40 bg-gray-500 rounded-full flex items-center justify-center mb-4 mt-4">
+                        <img id="petprofile_img" src="/img/pet.png" alt="Profile Picture" class="w-full h-full rounded-full object-cover">                
+                    </label>
+                    <p id="petprofile_name" class="text-white text-lg font-bold mb-2">Oryo</p>
+                    <p id="petprofile_age" class="text-gray-300 text-sm mb-3">Age: 2</p>
+                    <p id="petprofile_description" class="text-gray-300 text-sm mb-4">Description</p>
+                    <div id="ismissing_notif" class="hidden mb-4 text-center justify-center bottom-4 right-4 bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-lg">
+                        <strong>MISSING:</strong> <br/> <p>I am lost, please help me find my home</p>
                     </div>
-                    <!-- Name and Age -->
-                    <p class="text-white text-lg font-bold mb-2">Oryo</p>
-                    <p class="text-gray-300 text-sm mb-8">Age: 2</p>
-                    <!-- QR Code Square -->
-                    <div class="w-48 h-48 bg-white flex items-center justify-center">
-                        <img src="/img/qr.png" alt="QR Code" class="w-full h-full object-contain">
-                    </div>
-
                     <!-- Message Furparent Icon Button -->
-                    <button class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-transparent rounded-lg hover:text-white focus:outline-none" data-modal-toggle="messageModal">
-                        <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h9M5 9h5m8-8H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4l3.5 4 3.5-4h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                    <a class="inline-flex items-center p-3 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" id="petprofile_message_parent"  href="">
+                        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h9M5 9h5m8-8H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4l3.5 4 3.5-4h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"></path>
                         </svg>
-                        <span class="ml-2 text-gray-300">Message Furparent</span>
-                    </button>
+                        @if (auth()->check())
+                        <span class="ml-2">Message Furparent</span>
+                        @else
+                        <span class="ml-2">Sign In / Sign up to Message Furparent</span>
+                        @endif
+                    </a>
+                    
                 </div>
-
-                <!-- Right Column -->
+                
                 <div class="w-full md:w-[70%] bg-black p-16 overflow-auto no-scrollbar">
-                    <!-- Image Cards Grid -->
-                    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-1">
-                        <!-- Single Image Card -->
+                    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-1" id="furbaby_media_section">
                         <div class="relative group">
                             <img class="w-full aspect-square object-cover" src="/img/pet 2.png" alt="Image 1">
                         </div>

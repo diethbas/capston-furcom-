@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('notificationID');
             $table->text('description');
-            $table->timestamp('date');
+            $table->boolean('isread');
             $table->unsignedBigInteger('furparentID');
             $table->timestamps();
 

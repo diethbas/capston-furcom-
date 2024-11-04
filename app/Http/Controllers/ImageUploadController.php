@@ -18,7 +18,7 @@ class ImageUploadController extends Controller
         $imageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $imageName);
         // Generating the Image URL
-        $path = asset('images/' . $imageName);
+        $path = '/images/' . $imageName;
         // Updating the User’s Profile with the Image URL
         Furparents::where('id', session('user.furparentID'))->update([
             'img' => $path

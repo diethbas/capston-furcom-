@@ -70,6 +70,7 @@ class RegistrationController extends Controller
             'name' => $request->input('name'),
             'age' => $request->input('age'),
             'img' => $img,
+            'ismissing' => false,
             'description' => $request->input('description'),
         ]);
 

@@ -29,7 +29,8 @@ $_confirm_password = '********';
 
             <!-- Modal Body with Form -->
             <div class="p-6 space-y-4">
-                <form class="max-w-md mx-auto">
+                <form id="form_submit_newPet" class="max-w-md mx-auto" action="{{route('furbaby.add')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <!-- Furbaby Name -->
                     <div class="relative z-0 w-full mb-5 group">
                         <input type="text" name="furbaby_name" id="furbaby_name" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2  appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
@@ -38,7 +39,7 @@ $_confirm_password = '********';
 
                     <!-- Furbaby Age -->
                     <div class="relative z-0 w-full mb-5 group">
-                        <input type="number" name="furbaby_age" id="furbaby_age" class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2  appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <input type="number" name="furbaby_age" id="furbaby_age" class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2  appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " min="0" required />
                         <label for="furbaby_age" class="absolute text-sm  text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Furbaby Age</label>
                     </div>
 
@@ -55,7 +56,7 @@ $_confirm_password = '********';
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="text-white   focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Submit</button>
+                    <button id="btn_submit_newPet" type="submit" class="text-white   focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800" onclick="document.getElementById('btn_submit_newPet').disabled=true; document.getElementById('form_submit_newPet').submit();">Submit</button>
                 </form>
             </div>
         </div>
@@ -165,17 +166,55 @@ $_confirm_password = '********';
                         </svg>
                     </button>
                     <div id="dropdownMenu" class="z-10 hidden  divide-y  rounded-lg shadow w-44 bg-black divide-gray-600">
-                        <ul class="py-2 text-sm  text-gray-200" aria-labelledby="dropdownMenuIconButton">                              
-                            <li><a href="#" class="block px-4 py-2  hover:bg-gray-600 hover:text-white">Edit</a></li>
-                            <li><a href="#" class="block px-4 py-2  hover:bg-gray-600 hover:text-white">Add Image</a></li>
-                            <li><a href="#" class="block px-4 py-2  hover:bg-gray-600 hover:text-white">Tag as Missing</a></li>
-                            <li><a href="#" class="block px-4 py-2  hover:bg-gray-600 hover:text-white">Delete</a></li>
+                        <ul class="py-2 text-sm  text-gray-200" aria-labelledby="dropdownMenuIconButton">  
+                            <li><label class="block px-4 py-2  hover:bg-gray-600 hover:text-white" for="upload-media-image">Add Image</label>
+                                
+                    <!-- Image Input -->
+                    <input type="file" id="upload-media-image" class="hidden" accept="image/*" />
+
+                    <script>
+                        var mediaInput = document.getElementById('upload-media-image');
+
+                        // Attach a change event listener to the input
+                        mediaInput.addEventListener('change', function() {
+                            // Create a FormData object
+                            var formData = new FormData();
+                            formData.append('image', mediaInput.files[0]);
+                            formData.append('furbabyID', window._.furbabyModal.id);
+
+                            // Get CSRF token from meta tag
+                            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                            // Use fetch to send the file upload request
+                            fetch('{{ route('media.upload') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken // Set the CSRF token in the headers
+                                },
+                                body: formData // Send the form data
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json(); // Parse the response JSON
+                            })
+                            .then(data => {
+                                window._.furbabyModal.showMedias();
+                            })
+                            .catch(error => {
+                                console.log('Error:', error);
+                            });
+                        });
+                    </script></li>
+                            <li><a id="petprofile_ismissing" href="#" class="block px-4 py-2  hover:bg-gray-600 hover:text-white" onclick="event.preventDefault(); window._.furbabyModal.tagMissingOrFound();">Tag as Missing</a></li>
+                            <li><a href="#" class="block px-4 py-2  hover:bg-gray-600 hover:text-white" onclick="event.preventDefault(); window._.furbabyModal.tagDelete();">Delete</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <label class="w-40 h-40 bg-gray-500 rounded-full flex items-center justify-center mb-4 mt-8">
-                    <img src="/img/pet.png" alt="Profile Picture" class="w-full h-full rounded-full object-cover">
+                    <img id="petprofile_img" src="/img/pet.png" alt="Profile Picture" class="w-full h-full rounded-full object-cover">
                     <!-- Edit Icon (Visible on hover) -->
                     <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -183,19 +222,55 @@ $_confirm_password = '********';
                         </svg>
                     </div>                    
                 </label>
-                <p class="text-white text-lg font-bold mb-2">Oryo</p>
-                <p class="text-gray-300 text-sm mb-8">Age: 2</p>
+                <p id="petprofile_name" class="text-white text-lg font-bold mb-2">Oryo</p>
+                <p id="petprofile_age" class="text-gray-300 text-sm mb-2">Age: 2</p>
+                <p id="petprofile_description" class="text-gray-300 text-sm mb-4">Description</p>
+                <div id="ismissing_notif" class="hidden mb-4 text-center justify-center bottom-4 right-4 bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-lg">
+                    <strong>MISSING:</strong> <br/> <p>I am lost, please help me find my home</p>
+                </div>
                 <div class="w-48 h-48 bg-white flex items-center justify-center">
-                    <img src="/img/qr.png" alt="QR Code" class="w-full h-full object-contain">
+                    <img id="petprofile_qr" src="/img/qr.png" alt="QR Code" class="w-full h-full object-contain">
                 </div>
             </div>
             <div class="w-full md:w-[70%] bg-black p-16 overflow-auto no-scrollbar">
-                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-1" id="furbaby_media_section">
                     <div class="relative group">
                         <img class="w-full aspect-square object-cover" src="/img/pet 2.png" alt="Image 1">
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div id="searchModal" aria-hidden="true" class="hidden fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]" onclick="this.classList.add('hidden')" >
+    <div class="w-full max-w-lg bg-gray-800 shadow-lg rounded-3xl px-8 py-6 relative" onclick="event.stopPropagation()">
+        <div class="flex items-start">
+            <div class="flex-1">
+                <h3 class="text-white text-2xl font-bold">Furparents</h3>
+            </div>
+            <button data-modal-hide="searchModal">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500" viewBox="0 0 320.591 320.591">
+                    <path d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z" data-original="#000000"></path>
+                    <path d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z" data-original="#000000"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex flex-wrap gap-4 mt-6">
+            <div class="flex flex-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" width="16px" class="fill-gray-400 mr-4">
+                    <path d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z">
+                    </path>
+                </svg>
+                <input type="text" id="searchText" placeholder="Search name" class="w-full outline-none bg-transparent text-gray-500 text-sm">
+            </div>
+        
+            <button type="button" class="px-5 py-2.5 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700" onclick="window._.searchbox.findFurparent()">Search</button>
+        </div>
+        
+
+        <div id="searchbox-display" class="mt-6 divide-y">
+            
         </div>
     </div>
 </div>

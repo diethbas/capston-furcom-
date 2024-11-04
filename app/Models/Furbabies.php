@@ -8,13 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Furbabies extends Model
 {
     use HasFactory;
+    protected $table = 'furbabies';
+    protected $primaryKey = 'furbabyID'; // Specify the primary key
 
     protected $fillable = [
         'furparentID',
         'name',
         'age',
         'description',
-        'img'
+        'img',
+        'ismissing'
     ];
 
     // Define relationship to furparent

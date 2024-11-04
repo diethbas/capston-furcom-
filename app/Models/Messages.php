@@ -19,4 +19,5 @@ class Messages extends Model
     {
         return $this->belongsTo(Threads::class);
     }
+    
 }

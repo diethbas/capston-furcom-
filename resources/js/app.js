@@ -1,29 +1,17 @@
 import './bootstrap';
+import './searchModal';
+import './notification';
+import './furbabyModal';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
-
-
-// window.Pusher = Pusher;
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: `${import.meta.env.VITE_PUSHER_APP_KEY}`,
-//     cluster: `${import.meta.env.VITE_PUSHER_APP_CLUSTER}`,
-//     encrypted: true,
-//     logToConsole: true ,
-//     auth: {
-//         headers: {
-//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//         }
-//     }
-// });
 
 const userId = (window.Laravel && window.Laravel.userId) || null;
 
 if (userId){
     window.Laravel.showModal= function(id, firstname, lastname) {
         if (window.Modal){
-            const modal2 = new window.Modal(document.getElementById('messageModal'));
-            modal2.show();
+            document.getElementById('messageModal').classList.remove('hidden');
+            document.getElementById('messageModal').classList.add('flex');
             var dataEvent = new CustomEvent('threadShow', {});
             
             document.getElementById('sendMessage-ToName').innerHTML = firstname + ' ' + lastname;
@@ -53,18 +41,10 @@ if (userId){
     channel.bind('pusher:subscription_error', (status) => {
         console.error('Subscription failed:', status);
     });
-    console.log(channel);
+    
     channel.bind('App\\Events\\MessageSent', function(data) {
         console.log(`Message sent`);
         window.Laravel.showModal(data.senderID, data.firstname, data.lastname);
         console.log(`Message from ${data.senderID}: ${data.message}`);
     });
 }
-
-
-// window.Echo.private(`chat.${userId}`)
-// .listen('App\\Events\\MessageSent', (e) => {
-//     console.log(`Message sent`);
-//     window.Laravel.showModal(e.senderID);
-// });
-// //import '@hotwired/turbo';

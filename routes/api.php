@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FurparentController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
@@ -26,3 +27,16 @@ Route::middleware('auth:sanctum')->get('/messages/get/{threadID}', [MessageContr
 
 
 Route::middleware('auth:sanctum')->get('/furparent/get/{id}', [FurparentController::class, 'getDetails']);
+
+use App\Http\Controllers\FurbabiesController;
+
+Route::get('/admin/furbabies/fetch', [AdminController::class, 'fetchFurbabies']);
+Route::post('/admin/furbabies/add', [AdminController::class, 'addFurbaby']);
+Route::put('/admin/furbabies/edit/{id}', [AdminController::class, 'editFurbaby']);
+Route::delete('/admin/furbabies/delete/{id}', [AdminController::class, 'deleteFurbaby']);
+
+
+Route::get('/admin/furparents/fetch', [AdminController::class, 'fetchFurparents']);
+Route::post('/admin/furparents/add', [AdminController::class, 'addFurparent']);
+Route::put('/admin/furparents/edit/{id}', [AdminController::class, 'editFurparent']);
+Route::delete('/admin/furparents/delete/{id}', [AdminController::class, 'deleteFurparent']);

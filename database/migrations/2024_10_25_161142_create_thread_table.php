@@ -16,6 +16,8 @@ return new class extends Migration
             $table->bigIncrements('threadID');
             $table->integer('recipientID1');
             $table->integer('recipientID2');
+            $table->boolean('isread');
+            $table->integer('isreadTo');
             $table->timestamps();
         });
     }

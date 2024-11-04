@@ -5,7 +5,9 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\FurbabiesController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\QRCodeController;
 use App\Models\Furparents;
 use App\Models\Thread;
 use Illuminate\Support\Facades\Broadcast;
@@ -23,6 +25,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (auth()->check() && !request()->query('qrProfile')){
+        return redirect()->route('profile');
+    }
     return view('home', [
         'isShowNavBar' => true,
         'isShowFooter' => true,
@@ -35,6 +40,13 @@ Route::get('/about', function () {
         'isShowFooter' => true,
     ]);
 })->name('about');
+
+Route::get('/marketplace', function () {
+    return view('marketplace', [
+        'isShowNavBar' => true,
+        'isShowFooter' => true,
+    ]);
+})->name('marketplace')->middleware('auth');
 
 Route::get('/contact', function () {
     return view('contact', [
@@ -64,12 +76,25 @@ Route::middleware(['web'])->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [AccountController::class, 'index'])->name('profile');
+    Route::get('/profile/{id}', [AccountController::class, 'publicProfile'])->name('profilepublic');
     Route::post('/profile.update', [AccountController::class, 'update'])->name('profile.update');
+    Route::post('/follow/{id}', [AccountController::class, 'follow'])->name('profile.follow');
+    Route::post('/unfollow/{id}', [AccountController::class, 'unfollow'])->name('profile.unfollow');
+    Route::get('/furparent/search/{query}', [AccountController::class, 'findFurparent'])->name('profile.findFurparent');
+    Route::get('/furparent/search', [AccountController::class, 'searchDefault'])->name('profile.searchDefault');
+    Route::get('/message/tag/read', [AccountController::class, 'tagReadMsg'])->name('message.read');
+    Route::get('/notif/tag/read', [AccountController::class, 'tagReadNotif'])->name('notif.read');
+
+    
+    Route::get('/furbaby/delete/{id}', [FurbabiesController::class, 'removeFurbaby'])->name('furbaby.delete');
+    Route::get('/furbaby/missingTag/{id}', [FurbabiesController::class, 'tagAsMissingOrFound'])->name('furbaby.missing');
+    Route::post('/furbaby/upload', [FurbabiesController::class, 'uploadMedia'])->name('media.upload');
+    Route::post('/image.upload', [ImageUploadController::class, 'uploadImage'])->name('image.upload');
+    Route::post('/image.upload', [ImageUploadController::class, 'uploadImage'])->name('image.upload');
+    
+    Route::post('/media/delete/{id}', [FurbabiesController::class, 'deleteMedia'])->name('media.delete');
 });
 
-// Profile Route
-
-// Login Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
@@ -78,15 +103,17 @@ Route::get('/logout', [AuthController::class, 'gotoLogout'])->name('logout')->mi
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout.submit')->middleware('auth');
 
 // Community Route
-Route::get('/community', function () {
-    return view('community', ['furparents' => Furparents::query()->where('id', '!=', session('user.furparentID'))->get()]);
-})->name('community')->middleware('auth');
+Route::get('/community', [AccountController::class, 'community'])->name('profile.community')->middleware('auth');
+Route::get('/furbaby/{id}', [FurbabiesController::class, 'getFurbaby'])->name('furbaby.getById');
 
-Route::post('/image.upload', [ImageUploadController::class, 'uploadImage'])->name('image.upload');
+Route::get('/furbaby/medias/{id}', [FurbabiesController::class, 'getMediasByFurbaby'])->name('furbaby.medias');
+Route::post('/furbaby/add', [FurbabiesController::class, 'newFurbaby'])->name('furbaby.add');
 
 Route::post('/broadcasting/auth', function (Request $request) {
     return auth()->check() ? response()->json(auth()->user()->id) : abort(403);
-})->middleware('auth');;
+})->middleware('auth');
+
+Route::get('/qr', [QRCodeController::class, 'generate']);
 Route::post('/pusher/auth', function (Request $request) {
     if (auth()->check()) {
         // Retrieve the socket_id and channel_name from the request
@@ -109,4 +136,17 @@ Route::post('/pusher/auth', function (Request $request) {
             'auth' => $auth_string
         ]);  // Laravel generates the auth signature automatically
     }
-})->middleware('auth');;
+})->middleware('auth');
+
+Route::get('/admin/furbabies', function () {
+    return view('admin_furbaby',[
+        'isNoSidebar' => true
+    ]);
+})->name('admin.furbabies');
+
+
+Route::get('/admin/furparents', function () {
+    return view('admin_furparent',[
+        'isNoSidebar' => true
+    ]);
+})->name('admin.furparents');

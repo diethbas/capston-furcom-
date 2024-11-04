@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Furbabies;
 use App\Models\Furparents;
+use App\Models\Troops;
 use Illuminate\Http\Request;
 
 class FurparentController extends Controller

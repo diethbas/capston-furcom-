@@ -27,7 +27,9 @@ class MessageController extends Controller
             // Create the message in the database
             $thread = Threads::create([
                 'recipientID1' => $sendToID,
-                'recipientID2' => $senderID
+                'recipientID2' => $senderID,
+                'isread' => false,
+                'isreadTo' => $sendToID
             ]);
         }
 
@@ -75,6 +77,10 @@ class MessageController extends Controller
         // Creating a Message
         if ($thread) {
             // Create the message in the database
+            Threads::where('threadID', $thread->threadID)->update([
+                'isread' => false,
+                'isreadTo' => $sendToID
+            ]);
             $message = Messages::create([
                 'threadID' => $thread->threadID,
                 'senderID' => $senderID,
@@ -86,9 +92,10 @@ class MessageController extends Controller
             // Create the message in the database
             $thread = Threads::create([
                 'recipientID1' => $sendToID,
-                'recipientID2' => $senderID
+                'recipientID2' => $senderID,
+                'isread' => false,
+                'isreadTo' => $sendToID
             ]);
-
             $message = Messages::create([
                 'threadID' => $thread->threadID,
                 'senderID' => $senderID,

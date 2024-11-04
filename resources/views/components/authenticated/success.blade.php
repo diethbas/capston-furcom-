@@ -1,7 +1,7 @@
 
 
 <div id="successMessage" class="hidden bg-green-500 text-white p-4 mb-10 m-2 rounded-md shadow-md transform scale-100 opacity-100">
-    Your profile has been updated successfully!
+    {{session()->has('successMessage') ? session('successMessage') : 'Your profile has been updated successfully!'}}
 </div>
 <script>
     function showSuccessMessage() {
