@@ -16,7 +16,7 @@ class FurbabiesController extends Controller
                 'furbaby_name' => 'required|string|max:255',
                 'furbaby_age' => 'required|integer|min:0',
                 'furbaby_description' => 'nullable|string',
-                'furbaby_profile_pic' => 'required|image|mimes:jpeg,png,jpg,gif|max:10000', // 2MB max
+                'furbaby_profile_pic' => 'required|image|mimes:jpeg,png,jpg,gif|max:20000', 
             ]);
 
             $imagePath = '/';
