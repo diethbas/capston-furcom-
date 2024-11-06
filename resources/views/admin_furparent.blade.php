@@ -10,10 +10,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <input type="text" id="firstname" placeholder="First Name" class="p-2 rounded bg-gray-800 text-white" required>
             <input type="text" id="lastname" placeholder="Last Name" class="p-2 rounded bg-gray-800 text-white" required>
+            <select id="admin_access" class="p-2 rounded bg-gray-800 text-white">
+                <option value="0">Furparent</option>
+                <option value="1">Furparent / Admin</option>
+            </select>
             <input type="email" id="email" placeholder="Email" class="p-2 rounded bg-gray-800 text-white" required>
             <input type="text" id="mobile_number" placeholder="Mobile Number" class="p-2 rounded bg-gray-800 text-white">
             <input type="text" id="city" placeholder="City" class="p-2 rounded bg-gray-800 text-white">
             <input type="text" id="province" placeholder="Province" class="p-2 rounded bg-gray-800 text-white">
+            <input type="text" id="img" placeholder="Image URL" class="p-2 rounded bg-gray-800 text-white">
             <input type="password" id="password" placeholder="Password (leave blank to keep current)" class="p-2 rounded bg-gray-800 text-white">
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded p-2">
                 Add/Update Furparent

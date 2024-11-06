@@ -5,7 +5,7 @@
     <div class="max-w-screen-xl flex items-center justify-between mx-auto p-1.5">
 
         <!-- Logo on the left -->
-        <a href="./profile" class="ml-2 flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="/profile" class="ml-2 flex items-center space-x-3 rtl:space-x-reverse">
             <img src="/img/logo.png" class="h-8" alt="Furcon Logo" />
         </a>
 
@@ -151,6 +151,19 @@
                     <span class="block text-sm  truncate text-gray-400">{{ session('user.email') }}</span>
                 </div>
             </a>    
+            @if(auth()->check() && auth()->user()->admin_access)
+            <ul class="py-2" aria-labelledby="user-menu-button">
+                <li>
+                    <strong class="block px-4 py-2 text-sm text-red-200">Admin - Maintenance</strong>
+                </li>
+                <li>
+                    <a href="/admin/furparents" class="block px-4 py-2 text-sm  hover:bg-red-600 text-red-200 hover:text-white">Furparents</a>
+                </li>
+                <li>
+                    <a href="/admin/furbabies" class="block px-4 py-2 text-sm  hover:bg-red-600 text-red-200 hover:text-white">Furbabies</a>
+                </li>
+            </ul>
+            @endif
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
                         <a href="/logout" class="block px-4 py-2 text-sm  hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('province');
             $table->string('password');
             $table->string('img');
+            $table->boolean('admin_access')->default(false);;
             $table->timestamps();
         });
     }

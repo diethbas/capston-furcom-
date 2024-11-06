@@ -19,7 +19,8 @@ class Furparents extends Authenticatable
         'city',
         'province',
         'password',
-        'img'
+        'img',
+        'admin_access'
     ];
 
     // Define relationship to furbabies

@@ -78,6 +78,8 @@ class AdminController extends Controller
             'city' => 'nullable|string',
             'province' => 'nullable|string',
             'password' => 'required|string',
+            'admin_access' => 'required|boolean',
+            'img' => 'nullable|string',
             // Include other fields as necessary
         ]);
 
@@ -98,6 +100,8 @@ class AdminController extends Controller
                 'mobile_number' => 'nullable|string',
                 'city' => 'nullable|string',
                 'province' => 'nullable|string',
+                'admin_access' => 'required|boolean',
+                'img' => 'nullable|string',
                 // Validate other fields as necessary
             ]);
 

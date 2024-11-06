@@ -138,15 +138,26 @@ Route::post('/pusher/auth', function (Request $request) {
     }
 })->middleware('auth');
 
+Route::get('/admin', function () {
+    return redirect()->route('admin.furparents');
+})->middleware('auth');
+
 Route::get('/admin/furbabies', function () {
+    
+    if (auth()->check() && !auth()->user()->admin_access){
+        return redirect()->route('profile');
+    }
     return view('admin_furbaby',[
         'isNoSidebar' => true
     ]);
-})->name('admin.furbabies');
+})->name('admin.furbabies')->middleware('auth');
 
 
 Route::get('/admin/furparents', function () {
+    if (auth()->check() && !auth()->user()->admin_access){
+        return redirect()->route('profile');
+    }
     return view('admin_furparent',[
         'isNoSidebar' => true
     ]);
-})->name('admin.furparents');
+})->name('admin.furparents')->middleware('auth');
