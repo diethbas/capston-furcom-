@@ -9,7 +9,10 @@
 
 
         <!-- Welcome  -->
-        <h1 class="mt-5 mb-10 text-3xl font-semibold capitalize sm:text-3xl text-white">Welcome to our FurFamily</h1>
+        <h1 class="mt-5 mb-10 text-3xl font-semibold capitalize sm:text-3xl text-white text-center sm:text-center md:text-center">
+            Welcome to our FurFamily
+        </h1>
+
 
         <div class="relative grid md:grid-cols-2 items-center gap-y-4 bg-white max-w-4xl w-full shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md overflow-hidden lg:min-h-[80vh] md:min-h-[85vh] h-full">
         @if (!session()->has('isFurbabyForm'))
