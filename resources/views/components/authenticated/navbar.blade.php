@@ -56,7 +56,11 @@
                             @foreach ($messages as $item)
                             <li class="flex items-center cursor-pointer {{!$item['isread'] && $item['isreadTo'] == session('user.furparentID') ? 'new-notif' : ''}}" data-modal-target="messageModal" data-modal-toggle="messageModal" onClick="window._.mbox.setMessageToId('{{$item['talkTo_id']}}', '{{$item['talkTo_firstname']}}', '{{$item['talkTo_lastname']}}', '{{$item['talkTo_img']}}')">
                                 <!-- Profile Picture -->
+                                @if($item['talkTo_img'] == null || $item['talkTo_img'] == '' || $item['talkTo_img'] == '/')
+                                <img class="w-8 h-8 rounded-full mr-3" src="{{'https://ui-avatars.com/api/?name=' . $item['talkTo_firstname'] .' '.$item['talkTo_lastname'] . '&size=150'}}" alt="user photo">
+                                @else
                                 <img src="{{$item['talkTo_img']}}" alt="{{$item['talkTo_firstname'].' '.$item['talkTo_lastname']}} profile" class="w-8 h-8 rounded-full mr-3">
+                                @endif
                                 <!-- Message Content -->
                                 <div class="container">
                                     <p class="text-gray-500"><strong>{{$item['talkTo_firstname'].' '.$item['talkTo_lastname']}}</strong></p>
