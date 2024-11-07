@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Furbabies;
 use App\Models\Furparents;
+use App\Models\Threads;
 use App\Models\Troops;
 use Exception;
 use Illuminate\Http\Request;
@@ -122,6 +123,11 @@ class AdminController extends Controller
         Furparents::destroy($id);
 
         Troops::where('friend_id', $id)->delete();
+
+        Threads::where('recipientID1', $id)
+        ->orWhere('recipientID2', $id)
+        ->delete();
+        
         return response()->json(['success' => true]);
     }
 }
