@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class FurbabiesController extends Controller
 {
+    // Adding a New Furbaby 
     public function newFurbaby(Request $request) {
         try{
             
@@ -47,7 +48,7 @@ class FurbabiesController extends Controller
             dd($error);
         }
     } 
-
+    // Uploading Additional Media for a Furbaby
     public function uploadMedia(Request $request)
     {
         try {
@@ -79,7 +80,7 @@ class FurbabiesController extends Controller
         }
         
     }
-
+    // Deleting Media by ID
     public function deleteMedia($id) {
         $row = Medias::query()->where('mediaID', $id)->delete();
         
@@ -88,7 +89,7 @@ class FurbabiesController extends Controller
             'media' => $row
         ], 200);
     }
-    
+    //Retrieving Media for a Specific Furbaby
     public function getMediasByFurbaby($id){
         $medias = Medias::query()->where('furbabyID', $id)->get(['furbabyID', 'img', 'mediaID']);
 
@@ -106,7 +107,7 @@ class FurbabiesController extends Controller
             'medias' => $items
         ], 200);
     }
-
+    // Deleting a Furbaby
     public function removeFurbaby($id){
         $furbaby = Furbabies::query()->where('furbabyID', $id)->delete();
         return response()->json([
@@ -114,7 +115,7 @@ class FurbabiesController extends Controller
             'furbaby' => $furbaby
         ], 200);
     }
-
+    // Retrieving Furbaby Information by ID
     public function getFurbaby($id){
         $furbaby = Furbabies::query()->where('furbabyID', $id)->first(['furbabyID', 'furparentID', 'name', 'age', 'description', 'img', 'ismissing']);
         
@@ -123,7 +124,7 @@ class FurbabiesController extends Controller
             'furbaby' => $furbaby
         ], 200);
     }
-
+    // Marking a Furbaby as Missing or Found
     public function tagAsMissingOrFound($id){
         $furbaby = Furbabies::query()->where('furbabyID', $id)->first(['furbabyID', 'name', 'age', 'description', 'img', 'ismissing']);
         
@@ -138,6 +139,7 @@ class FurbabiesController extends Controller
             'furbaby' => $furbaby
         ], 200);
     }
+    // Retrieving All Furbabies for a Specific User
     public function getFurbabies($id) {
         $furbabies = Furbabies::where('furparentID', $id)
         ->latest()

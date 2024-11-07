@@ -39,6 +39,7 @@
 
 <script>
     class AdminGrid {
+        // Sets up initial variables and API endpoint.
         constructor(apiEndpoint) {
             this.apiEndpoint = apiEndpoint;
             this.records = [];
@@ -46,7 +47,7 @@
             this.editingRecordId = null;
             this.init();
         }
-
+        // Prepare the grid with the table structure and initial data.
         init() {
             this.renderTable();
             document.getElementById('recordForm').addEventListener('submit', (event) => {
@@ -55,14 +56,14 @@
             });
             this.fetchRecords();
         }
-
+        // Retrieves data from the API and updates the table with this data.
         async fetchRecords() {
             const response = await fetch(`${this.apiEndpoint}/fetch`);
             this.records = await response.json();
             this.updateColumns();
             this.renderTable();
         }
-
+        // Generates unique columns from this.records to define the table structure.
         updateColumns() {
             this.records.forEach(record => {
                 Object.keys(record).forEach(key => {
@@ -70,7 +71,7 @@
                 });
             });
         }
-
+        // Handles the submission of the form
         async handleSubmit() {
             const formData = this.getFormData();
             console.log('Form Data Submitted:', formData);
@@ -87,7 +88,7 @@
             document.getElementById('recordForm').reset();
             this.fetchRecords();
         }
-
+        // Add a new furbaby record.
         async addRecord(data) {
             await fetch(`${this.apiEndpoint}/add`, {
                 method: 'POST',
@@ -98,7 +99,7 @@
                 body: JSON.stringify(data)
             });
         }
-
+        // Update an existing furbaby record based on the furbabyID.
         async updateRecord(furbabyID, data) {
             console.log('Updating Record ID:', furbabyID, 'Data:', data);
             await fetch(`${this.apiEndpoint}/edit/${furbabyID}`, {
@@ -110,7 +111,7 @@
                 body: JSON.stringify(data)
             });
         }
-
+        //  Remove a furbaby record based on furbabyID.
         async deleteRecord(furbabyID) {
             await fetch(`${this.apiEndpoint}/delete/${furbabyID}`, {
                 method: 'DELETE',
@@ -120,7 +121,7 @@
             });
             this.fetchRecords();
         }
-
+        // Retrieves data from the form inputs and returns it as an object.
         getFormData() {
             const data = {};
             this.columns.forEach(column => {
@@ -133,7 +134,7 @@
             data.furparentID = document.getElementById('furparentID').value; // Include furparentID
             return data;
         }
-
+        // Builds and displays the table with fetched records.
         renderTable() {
             const tableBody = document.getElementById('recordTableBody');
             tableBody.innerHTML = '';
@@ -170,7 +171,7 @@
                 tableBody.appendChild(row);
             });
         }
-
+        //  Loads a specific record's data into the form, enabling editing.
         editRecord(furbabyID) {
             console.log('Editing Record ID:', furbabyID);
             const record = this.records.find(record => record.furbabyID === furbabyID);
@@ -191,7 +192,7 @@
             }
         }
     }
-
+    // Intialization
     const adminGrid = new AdminGrid('/api/admin/furbabies');
 </script>
 @endsection

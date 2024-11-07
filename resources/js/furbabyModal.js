@@ -170,6 +170,10 @@ window._.furbabyModal = {
         .then(response => response.json())
         .then(async data => { 
             window._.furbabyModal.id = data.furbaby.furbabyID;
+            const qr = document.getElementById('petprofile_qr');
+            if (qr) {
+                qr.src = "/qr?data="+window.location.origin+"?qrProfile="+data.furbaby.furbabyID;
+            }
             const img = document.getElementById('petprofile_img');
             const name = document.getElementById('petprofile_name');
             const age = document.getElementById('petprofile_age');
@@ -183,13 +187,11 @@ window._.furbabyModal = {
             age.innerHTML = "Age: " + data.furbaby.age;
             await window._.furbabyModal.showMedias();
 
-            const qr = document.getElementById('petprofile_qr');
             const ismissing = document.getElementById('petprofile_ismissing');
             const isEditButton = document.getElementById('dropdownMenuIconButton');
             const ismissing_notif = document.getElementById('ismissing_notif');
             const petprofile_message_parent = document.getElementById('petprofile_message_parent');
             const petprofile_description = document.getElementById('petprofile_description');
-
             
             
             if(petprofile_description){
@@ -226,10 +228,6 @@ window._.furbabyModal = {
                 else {
                     ismissing_notif.classList.add('hidden');
                 }
-            }
-
-            if (qr) {
-                qr.src = "/qr?data="+window.location.origin+"?qrProfile="+data.furbaby.furbabyID;
             }
             document.getElementById('bigModal').classList.remove('hidden');
         })

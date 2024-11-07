@@ -24,9 +24,10 @@
                             </svg>
                         </div>
                     </label>
+                    
                     <!-- Image Input -->
                     <input type="file" id="upload-image" class="hidden" accept="image/*" />
-
+                    {{-- Upload Image --}}
                     <script>
                         var imageInput = document.getElementById('upload-image');
 

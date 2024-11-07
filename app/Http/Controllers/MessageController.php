@@ -42,9 +42,9 @@ class MessageController extends Controller
 
     // Retrieves the most recent 50 messages
     public function getMessages(Request $request, $threadID){
-        $latestMessages = Messages::where('threadID', $threadID)  // Filter by thread ID
-        ->latest()  // Order by latest first
-        ->take(50)  // Limit to the latest 50 messages
+        $latestMessages = Messages::where('threadID', $threadID)  
+        ->latest()  
+        ->take(50) 
         ->get();
 
         // Return the messages as JSON

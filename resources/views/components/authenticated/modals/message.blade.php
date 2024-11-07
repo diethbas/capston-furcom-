@@ -1,10 +1,12 @@
-<!-- Reply Modal -->
-
+{{-- Audio Elements for Sounds --}}
 <audio id="notificationSound" src="/sounds/messageBubble.mp3" preload="auto" allow="autoplay"></audio>
 <audio id="onclick" src="/sounds/click.mp3" preload="auto" allow="autoplay"></audio>
 <script>
+    //Global Object Initialization
     window._ = window._ || {};
+    //  Main Messaging Object
     window._.mbox = {
+        // Holds info for "me" and "to" (the other user)
         me: {
             id: null,
             furparent: {
@@ -21,6 +23,8 @@
                 img: null,
             }
         },
+
+        // Future Placeholders
         showBubbleMsg: function() {
             // Function implementation goes here
         },
@@ -30,6 +34,8 @@
         showThreadMessage: function() {
             // Function implementation goes here
         },
+
+        // Plays a notification sound
         notifSound: function (name = 'notificationSound') {
             var promise = document.getElementById(name).play();
 
@@ -41,6 +47,8 @@
             });
             }
         },
+
+        // Message Organization
         messageOrganize: function(classDiv) {
             const divs = document.querySelectorAll('.'+classDiv);
             console.log(divs);
@@ -58,6 +66,8 @@
                 }
             }
         },
+
+        // Sets message recipient information and triggers the modal
         setMessageToId: function (id, firstname, lastname, img){
             var dataEvent = new CustomEvent('threadShow', {});
             document.getElementById('sendMessage-ToName').innerHTML = firstname + ' ' + lastname;
@@ -65,14 +75,18 @@
             document.getElementById('messageModal').dispatchEvent(dataEvent);
         }
     };
+
     document.addEventListener('DOMContentLoaded', function () {
-        window._.mbox.notifSound('onclick');
+        window._.mbox.notifSound('onclick'); //Event Listener on DOM Load
+        // Selecting Button and Modal Elements
         var btn = document.getElementById('sendMessage-btn');
         var modal = document.getElementById('messageModal');
+        // Fetches and displays message thread data based on the recipient ID.
         async function getThread(){
             var t = sessionStorage.getItem('t');
             var to = document.getElementById('messageModal').dataset.idTo;
             var content = document.getElementById('sendMessage-content').value;
+            // Fetching the Thread Data
             await fetch('/api/messages/thread/'+ to + '/find', {
                 method: 'GET',
                 headers: {
@@ -81,6 +95,7 @@
                     'X-CSRF-TOKEN': window._.csrf
                 }
             })
+            // Processing the Response
             .then(response => response.json())
             .then(async data => {
                 if (data.thread.threadID){
@@ -89,7 +104,7 @@
                 else {
                     document.getElementById('messageModal').dataset.threadID = data.thread.id;
                 }
-
+                // Determines which user in the thread
                 if (data.thread.recipientID1 == window.Laravel.userId) {
                     window._.mbox.me.id = data.thread.recipientID1;
                     window._.mbox.to.id = data.thread.recipientID2;
@@ -98,7 +113,7 @@
                     window._.mbox.me.id = data.thread.recipientID2;
                     window._.mbox.to.id = data.thread.recipientID1;
                 }
-                
+                // Fetching User Information with getFurparent
                 var me = await getFurparent(window._.mbox.me.id);
                 var to = await getFurparent(window._.mbox.to.id);
                 window._.mbox.me.furparent.firstname = me.firstname;
@@ -109,8 +124,10 @@
                 window._.mbox.to.furparent.lastname = to.lastname;
                 window._.mbox.to.furparent.img = to.img;
             })
+            //  Error Handling
             .catch(error => {});
         }
+        // Retrieves messages for a specific thread and updates the message view in the modal
         async function getMessages(){
             var t = sessionStorage.getItem('t');
             var threadID = document.getElementById('messageModal').dataset.threadID;
@@ -132,6 +149,7 @@
                 // Generate the message template with actual content
                 var furparent = msgObj.senderID == window._.mbox.me.id ? window._.mbox.me.furparent : window._.mbox.to.furparent;
                 var isMe = msgObj.senderID == window._.mbox.me.id;
+
                 // Use timeAgo function to get "1 minute ago" format
                 const timeAgoString = timeAgo(msgObj.created_at);
                 const messageHTML = getMessageTemplate(furparent.img, msgObj.message, furparent.firstname, timeAgoString, !isMe);
@@ -144,7 +162,7 @@
             }
             
         }
-        
+        // Formats a timestamp into a relative time string
         function timeAgo(date) {
             const messageDate = new Date(Date.parse(date));
             const now = new Date();
@@ -167,6 +185,7 @@
 
             return diffInSeconds <= 1 ? 'just now' : `${diffInSeconds} seconds ago`;
         }
+        // Fetches the details of a "furparent" user by ID.
         async function getFurparent(id){
             var t = sessionStorage.getItem('t');
             var returnValue = null;
@@ -186,13 +205,13 @@
 
             return returnValue;
         }
+        // Show a message thread and play a notification sound.
         modal.addEventListener('threadShow', async function(e){
-            window._.mbox.notifSound();
             await getThread();
             await getMessages();
+            window._.mbox.notifSound();
         });
-
-
+        // Generates HTML for each message
         function getMessageTemplate(img, message, fullname, timestamp, isNotMe = true) {
             const encodefullname = encodeURI(fullname);
             if (img == null || img == '' || img == '/'){
@@ -231,6 +250,7 @@
             </div>
             `;
         }
+        // Send a message by pressing the Enter key.
         document.getElementById('sendMessage-content').addEventListener('keydown', function(event) {
             // Check if the Enter key was pressed
             if (event.key === 'Enter') {
@@ -238,6 +258,7 @@
                 btn.click();
             }
         });
+        // Handles sending a message and updating the UI to show the new message.
         btn.addEventListener('click', function (e) {
             e.preventDefault();
 
@@ -282,6 +303,7 @@
         });
     });
 </script>
+
 <div id="messageModal" tabindex="-1" aria-hidden="true"  class="hidden fixed inset-0 z-50 flex justify-center md:justify-end md:items-end bg-black bg-opacity-50">
     <div class="relative w-full md:max-w-xs  bg-opacity-90 rounded-lg shadow bg-gray-800 md:mr-10 md:mb-10 h-96 flex flex-col">
         <div class="p-4 border-b border-gray-600">

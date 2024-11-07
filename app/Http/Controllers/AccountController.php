@@ -24,19 +24,25 @@ class AccountController extends Controller
         $img = session('user.img');
         $email = session('user.email');
         
+        // Retrieve user's troop list and notifications
         $troopList = $this->getTroopList($id);
         $notifications = $this->getNotifications($id);
         $unreadNotifCount = count(array_filter($notifications, function($item) {
-            return !$item['isread']; // Check if isread is false
-        }));
-        $messages = $this->getMessages($id);
-        $unreadMessageCount = count(array_filter($messages, function($item) {
-            return !$item['isread'] && $item['isread'] == session('user.furparentID'); // Check if isread is false
+            return !$item['isread'];
         }));
 
+        // Retrieve user's messages and unread message count
+        $messages = $this->getMessages($id);
+        $unreadMessageCount = count(array_filter($messages, function($item) {
+            return !$item['isread'] && $item['isread'] == session('user.furparentID');
+        }));
+
+        // Get user's furbabies and media
         $furbabiesController = new FurbabiesController();
         $furbabies = $furbabiesController->getFurbabies($id);
         $medias = $this->getMediasByFurparent($id);
+
+        // Render the 'profile' view with user data
         return view('profile')
         ->with('id', $id)
         ->with('firstname', $firstname)
@@ -51,6 +57,7 @@ class AccountController extends Controller
         ->with('furbabies', $furbabies)
         ->with('medias', $medias);
     }
+    // Mark Notifications as Read 
     public function tagReadNotif(){
         
         $userId = session('user.furparentID');
@@ -63,6 +70,7 @@ class AccountController extends Controller
             'affected' => $userId
         ], 200);
     }
+    // Mark Messages as Read
     public function tagReadMsg(){
         $userId = session('user.furparentID');
         $affectedRows = Threads::where('isreadTo', $userId)->update([
@@ -73,16 +81,16 @@ class AccountController extends Controller
             'affected' => $affectedRows
         ], 200);
     }
-
+    //Display Community Page
     public function community() {         
         $id = session('user.furparentID');
         $notifications = $this->getNotifications($id);
         $unreadNotifCount = count(array_filter($notifications, function($item) {
-            return !$item['isread']; // Check if isread is false
+            return !$item['isread'];
         }));
         $messages = $this->getMessages($id);
         $unreadMessageCount = count(array_filter($messages, function($item) {
-            return !$item['isread'] && $item['isread'] == session('user.furparentID'); // Check if isread is false
+            return !$item['isread'] && $item['isread'] == session('user.furparentID');
         }));
         $medias = $this->getMediasByFurparent($id);
         return view('community')
@@ -94,7 +102,7 @@ class AccountController extends Controller
         ->with('medias', $medias);
     }
 
-
+    //Displaying Another User's Profile
     public function publicProfile($id){
         
         $furparent = Furparents::where('id', $id)->first();
@@ -153,7 +161,7 @@ class AccountController extends Controller
             return redirect()->route('home');
         }
     }
-
+    //Following a User
     public function follow($id){
         
         if (session('user.furparentID')) {
@@ -183,7 +191,7 @@ class AccountController extends Controller
         return view()->with('success', true);
 
     }
-
+    //Unfollowing a User
     public function unfollow($id){
         
         if (session('user.furparentID')) {
@@ -203,6 +211,8 @@ class AccountController extends Controller
         }
         return view()->with('success', true);
     }
+
+    //Searching Users
     public function searchDefault() {
         return $this->findFurparent('');
     }
@@ -225,6 +235,7 @@ class AccountController extends Controller
         return response()->json($search, 200);
     }
 
+    //Retrieving a User's Friends List
     public function getTroopList($id) {
         $troops = Troops::query()->where('furparent_id', $id)->get();
         $furparentList = [];
@@ -244,7 +255,7 @@ class AccountController extends Controller
         }
         return $furparentList;
     }
-
+    //Retrieving User’s Media
     public function getMediasByFurparent($id){
         DB::enableQueryLog();
         $medias = Medias::select('medias.img', 'medias.mediaID')
@@ -263,10 +274,10 @@ class AccountController extends Controller
             $items[] = $new;
         }
         
-        // dd(DB::getQueryLog());
+
         return $items;
     }
-
+   //Retrieving Notifications for a User
     public function getNotifications($id) {
         $notifications = Notifications::where('furparentID', $id)
         ->select('description', 'isread', 'created_at')
@@ -284,7 +295,7 @@ class AccountController extends Controller
         }
         return $notifs;
     }
-
+    //
     public function getMessages($id) {
         $me = session('user.furparentID');
         $messages = Threads::where(function($query) use($me) {

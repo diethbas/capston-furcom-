@@ -61,10 +61,9 @@
     <div class="flex flex-col h-screen">
 
         @include('components.authenticated.navbar')
-        @include('components.authenticated.modals.reply')
         @include('components.authenticated.modals.message')
         @include('components.authenticated.modals.submodal')
-    <!-- Main Content Wrapper with Sidebar and Grid -->
+        
     <div class="flex">
         @if (!isset($isNoSidebar)
         || !$isNoSidebar)

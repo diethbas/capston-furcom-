@@ -10,14 +10,12 @@ const userId = (window.Laravel && window.Laravel.userId) || null;
 if (userId){
     window.Laravel.showModal= function(id, firstname, lastname) {
         if (window.Modal){
-            document.getElementById('messageModal').classList.remove('hidden');
-            document.getElementById('messageModal').classList.add('flex');
             var dataEvent = new CustomEvent('threadShow', {});
-            
             document.getElementById('sendMessage-ToName').innerHTML = firstname + ' ' + lastname;
             document.getElementById('messageModal').dataset.idTo = id;
             document.getElementById('messageModal').dispatchEvent(dataEvent);
-    
+            document.getElementById('messageModal').classList.remove('hidden');
+            document.getElementById('messageModal').classList.add('flex');
         }
     }
     

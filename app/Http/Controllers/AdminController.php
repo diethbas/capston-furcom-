@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Furbabies;
 use App\Models\Furparents;
+use App\Models\Troops;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    // Furbabies Functions
+    //Retrieving Furbabies and their Furparents
     public function fetchFurbabies()
     {
         return response()->json(
@@ -20,7 +21,7 @@ class AdminController extends Controller
                 ->get()
         );
     }
-
+    //Adding a New Furbaby
     public function addFurbaby(Request $request)
     {
         $request->validate([
@@ -35,7 +36,7 @@ class AdminController extends Controller
         Furbabies::create($request->all());
         return response()->json(['success' => true]);
     }
-
+    // Editing an Existing Furbaby
     public function editFurbaby($id, Request $request)
     {
         try {
@@ -55,19 +56,19 @@ class AdminController extends Controller
             dd($error);
         }
     }
-
+    //Deleting a Furbaby
     public function deleteFurbaby($id)
     {
         Furbabies::destroy($id);
         return response()->json(['success' => true]);
     }
 
-    // Furparents Functions
+    //Retrieving All Furparents
     public function fetchFurparents()
     {
         return response()->json(Furparents::all());
     }
-
+    //Adding a New Furparent
     public function addFurparent(Request $request)
     {
         $request->validate([
@@ -88,7 +89,7 @@ class AdminController extends Controller
         Furparents::create($request->all());
         return response()->json(['success' => true]);
     }
-
+    //Editing an Existing Furparent
     public function editFurparent($id, Request $request)
     {
         try {
@@ -115,10 +116,12 @@ class AdminController extends Controller
             dd($error);
         }
     }
-
+    //Deleting a Furparent
     public function deleteFurparent($id)
     {
         Furparents::destroy($id);
+
+        Troops::where('friend_id', $id)->delete();
         return response()->json(['success' => true]);
     }
 }

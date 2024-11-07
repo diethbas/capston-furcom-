@@ -10,7 +10,7 @@ class Furbabies extends Model
     use HasFactory;
     protected $table = 'furbabies';
     protected $primaryKey = 'furbabyID'; // Specify the primary key
-
+    
     protected $fillable = [
         'furparentID',
         'name',

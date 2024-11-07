@@ -83,7 +83,7 @@ class AuthController extends Controller
         Session::flush();
 
         // Redirect to login page
-        return redirect()->route('login')->with('success', 'Logged out successfully.');
+        return redirect()->route('home')->with('success', 'Logged out successfully.');
     }
     // Initiate the logout process
     public function gotoLogout()

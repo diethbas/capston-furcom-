@@ -55,7 +55,7 @@ Route::get('/contact', function () {
     ]);
 })->name('contact');
 
-// Signup Routes
+
 Route::middleware(['web'])->group(function () {
     Route::get('/signup', function () {
         return view('signup', [
@@ -64,10 +64,10 @@ Route::middleware(['web'])->group(function () {
         ]);
     })->name('signup');
 
-    // Step 1: Furparents form route
+
     Route::post('/signup.furparent', [RegistrationController::class, 'storeFurparent'])->name('signup.furparent');
 
-    // Step 3: Handle Furbaby form submission
+    
     Route::post('/signup.store', [RegistrationController::class, 'store'])->name('signup.store');
     
     
@@ -98,15 +98,17 @@ Route::middleware('auth')->group(function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
-// Logout Routes
+
 Route::get('/logout', [AuthController::class, 'gotoLogout'])->name('logout')->middleware('auth');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout.submit')->middleware('auth');
 
-// Community Route
+
 Route::get('/community', [AccountController::class, 'community'])->name('profile.community')->middleware('auth');
+
 Route::get('/furbaby/{id}', [FurbabiesController::class, 'getFurbaby'])->name('furbaby.getById');
 
 Route::get('/furbaby/medias/{id}', [FurbabiesController::class, 'getMediasByFurbaby'])->name('furbaby.medias');
+
 Route::post('/furbaby/add', [FurbabiesController::class, 'newFurbaby'])->name('furbaby.add');
 
 Route::post('/broadcasting/auth', function (Request $request) {

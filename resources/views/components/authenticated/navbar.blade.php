@@ -1,15 +1,14 @@
-
 <!-- Navigation Bar -->
 
 <nav class="sticky top-0 py-0.5 border-b border-gray-200 bg-gray-900 shadow-[0_1px_2px_rgba(0,0,0,0.05)] z-50">
     <div class="max-w-screen-xl flex items-center justify-between mx-auto p-1.5">
 
-        <!-- Logo on the left -->
+        <!-- Logo -->
         <a href="/profile" class="ml-2 flex items-center space-x-3 rtl:space-x-reverse">
             <img src="/img/logo.png" class="h-8" alt="Furcon Logo" />
         </a>
 
-        <!-- Search Bar for larger screens -->
+        <!-- Search Bar -->
         <div class="relative hidden md:block md:w-48 lg:w-80 mx-auto" onclick="document.getElementById('searchModal').classList.remove('hidden'); document.getElementById('searchText').value = ''; document.getElementById('searchText').focus(); window._.searchbox.findFurparent();">
             <input type="text" id="search-navbar"
                 class="block w-full p-1 pl-8 text-sm border  rounded-lg   bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
@@ -23,32 +22,17 @@
             </div>
         </div>
 
-        <!-- Search Icon for smaller screens with dropdown -->
+        <!-- Search Icon  -->
         <div class="md:hidden relative">
-            <button id="mobileSearchButton" data-dropdown-toggle="dropdownSearch" class="text-gray-400  bg-gray-700 p-2 rounded-full">
+            <button id="mobileSearchButton" class="text-gray-400  bg-gray-700 p-2 rounded-full" onclick="document.getElementById('searchModal').classList.remove('hidden'); document.getElementById('searchText').value = ''; document.getElementById('searchText').focus(); window._.searchbox.findFurparent();">
                 <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="CurrentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4a6 6 0 100 12 6 6 0 000-12zm8 8l4 4" />
                 </svg>
             </button>
-
-            <!-- Dropdown for search input -->
-            <div id="dropdownSearch" class="z-10 hidden rounded-lg shadow w-60 bg-gray-700">
-                <div class="p-3">
-                    <label for="input-group-search" class="sr-only">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" stroke="CurrentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 19l-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        <input type="text" id="input-group-search" class="block w-full p-2 pl-10 text-sm  border  rounded-lg   bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="Search...">
-                    </div>
-                </div>
-            </div>
         </div>
 
 
-        <!-- Icons: Chat, Notification, Profile -->
+        <!-- Chat, Notification, Profile -->
         <div class="flex items-center space-x-3">
 
             <!-- Chat Icon with Circle Background and Badge -->
@@ -96,7 +80,7 @@
                 </div>
             </div>
 
-            <!-- Notification Icon with Circle Background -->
+            <!-- Notification Icon -->
             <div class="relative">
                 <button id="notificationDropdownButton" data-dropdown-toggle="notificationDropdown" class="flex items-center justify-center p-1 w-8 h-8 bg-gray-800 rounded-full focus:outline-none text-gray-400 hover:bg-gray-700" onclick="window._.notif.notificationTagRead()">
                     <svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
@@ -154,13 +138,13 @@
             @if(auth()->check() && auth()->user()->admin_access)
             <ul class="py-2" aria-labelledby="user-menu-button">
                 <li>
-                    <strong class="block px-4 py-2 text-sm text-red-200">Admin - Maintenance</strong>
+                    <strong class="block px-4 py-2 text-sm text-green-500">Admin - Maintenance</strong>
                 </li>
                 <li>
-                    <a href="/admin/furparents" class="block px-4 py-2 text-sm  hover:bg-red-600 text-red-200 hover:text-white">Furparents</a>
+                    <a href="/admin/furparents" class="block px-4 py-2 text-sm  hover:bg-green-600 text-green-200 hover:text-white">Furparents</a>
                 </li>
                 <li>
-                    <a href="/admin/furbabies" class="block px-4 py-2 text-sm  hover:bg-red-600 text-red-200 hover:text-white">Furbabies</a>
+                    <a href="/admin/furbabies" class="block px-4 py-2 text-sm  hover:bg-green-600 text-green-200 hover:text-white">Furbabies</a>
                 </li>
             </ul>
             @endif

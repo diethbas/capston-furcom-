@@ -16,7 +16,6 @@
                 <img class="mx-auto w-auto h-7 sm:h-8" src="/img/logo.png" alt="Logo">
                 </a>
 
-
                 <!-- Welcome Back Heading -->
                 <h1 class="mt-3 text-2xl font-semibold capitalize sm:text-3xl text-white">Welcome Back</h1>
 
@@ -51,6 +50,7 @@
                     </div>
                 </div>
                 @endif
+
                 <!-- Log in Button -->
                 <div class="mt-6">
                     <button type="submit" class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">

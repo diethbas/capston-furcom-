@@ -11,6 +11,7 @@ $_password = '********';
 $_confirm_password = '********';
 
 @endphp
+
 <!-- Modals for Adding New Furbaby -->
 <div id="furbabyModal" tabindex="-1" aria-hidden="true" class="fixed inset-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto bg-black bg-opacity-50 flex justify-center items-center">
     <div class="relative w-full max-w-md mx-auto  rounded-lg shadow-md bg-gray-800">
@@ -121,7 +122,7 @@ $_confirm_password = '********';
                     </div>
                     <button type="submit" class="text-white   focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Submit</button>
                 </form>
-
+                {{-- Validate the password fields in the profile edit form --}}
                 <script>
                     document.getElementById('edit_profile_form').addEventListener('submit', function(event) {
                         event.preventDefault();
@@ -148,7 +149,7 @@ $_confirm_password = '********';
     </div>
 </div>
 
-<!-- Modal for Larger Furbaby Image -->
+<!-- Large Modal for Furbaby Profile -->
 <div id="bigModal" tabindex="-1" aria-hidden="true" class="fixed inset-0 z-50 hidden flex items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto">
     <div class="relative w-full max-w-7xl mx-auto h-full">
         <div class="relative bg-gray-800 rounded-lg shadow-lg flex flex-col md:flex-row h-full overflow-hidden">
@@ -171,8 +172,9 @@ $_confirm_password = '********';
                                 
                     <!-- Image Input -->
                     <input type="file" id="upload-media-image" class="hidden" accept="image/*" />
-
+                    {{-- Uploads a media file (image) for a selected "furbaby" --}}
                     <script>
+
                         var mediaInput = document.getElementById('upload-media-image');
 
                         // Attach a change event listener to the input
@@ -193,15 +195,18 @@ $_confirm_password = '********';
                                 },
                                 body: formData // Send the form data
                             })
+                            // Parse the response JSO
                             .then(response => {
                                 if (!response.ok) {
                                     throw new Error('Network response was not ok');
                                 }
-                                return response.json(); // Parse the response JSON
+                                return response.json(); N
                             })
+                            // Updating the Media View
                             .then(data => {
                                 window._.furbabyModal.showMedias();
                             })
+                            // Error Handling
                             .catch(error => {
                                 console.log('Error:', error);
                             });
@@ -211,22 +216,27 @@ $_confirm_password = '********';
                             <li><a href="#" class="block px-4 py-2  hover:bg-gray-600 hover:text-white" onclick="event.preventDefault(); window._.furbabyModal.tagDelete();">Delete</a></li>
                         </ul>
                     </div>
+                    {{-- options within a dropdown list --}}
                 </div>
-
+                {{-- Furbabies Profile --}}
                 <label class="w-40 h-40 bg-gray-500 rounded-full flex items-center justify-center mb-4 mt-8">
                     <img id="petprofile_img" src="/img/pet.png" alt="Profile Picture" class="w-full h-full rounded-full object-cover">
-                    <!-- Edit Icon (Visible on hover) -->
                     <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                     </div>                    
                 </label>
-                <p id="petprofile_name" class="text-white text-lg font-bold mb-2">Oryo</p>
-                <p id="petprofile_age" class="text-gray-300 text-sm mb-2">Age: 2</p>
-                <p id="petprofile_description" class="text-gray-300 text-sm mb-4">Description</p>
-                <div id="ismissing_notif" class="hidden mb-4 text-center justify-center bottom-4 right-4 bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-lg">
-                    <strong>MISSING:</strong> <br/> <p>I am lost, please help me find my home</p>
+                <p id="petprofile_name" class="text-white text-lg font-bold mb-2">Name</p>
+                <p id="petprofile_age" class="text-gray-300 text-sm mb-2">Age:</p>
+                <div class="flex justify-center">
+                    <p id="petprofile_description" class="text-gray-300 text-sm mb-4">
+                        Description
+                    </p>
+                </div>
+                
+                <div id="ismissing_notif" class="hidden mb-4 text-center justify-center bottom-4 right-4 bg-red-800 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-lg">
+                    <strong>Missing</strong> <br/> <p>I am lost, please help me find my home!</p>
                 </div>
                 <div class="w-48 h-48 bg-white flex items-center justify-center">
                     <img id="petprofile_qr" src="/img/qr.png" alt="QR Code" class="w-full h-full object-contain">
@@ -242,6 +252,7 @@ $_confirm_password = '********';
         </div>
     </div>
 </div>
+{{-- Search Modal --}}
 <div id="searchModal" aria-hidden="true" class="hidden fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]" onclick="this.classList.add('hidden')" >
     <div class="w-full max-w-lg bg-gray-800 shadow-lg rounded-3xl px-8 py-6 relative" onclick="event.stopPropagation()">
         <div class="flex items-start">

@@ -10,16 +10,17 @@ use \Endroid\QrCode\ErrorCorrectionLevel;
 
 class QRCodeController extends Controller
 {
+    // Generating and Customizing the QR Code
     public function generate(Request $request)
     {
         $data = $request->input('data', 'Default Text');
-        $logoPath = public_path('img/favicon.png'); // Path to your logo image
+        $logoPath = public_path('img/favicon.png');
 
         // Create the QR code
         $qrCode = new QrCode($data);
         $qrCode->setSize(300);
         $qrCode->setMargin(10);
-        $qrCode->setErrorCorrectionLevel(ErrorCorrectionLevel::High); // Q level error correction
+        $qrCode->setErrorCorrectionLevel(ErrorCorrectionLevel::High); 
 
         // Create a PNG writer
         $writer = new PngWriter();

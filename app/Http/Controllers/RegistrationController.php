@@ -82,6 +82,7 @@ class RegistrationController extends Controller
         return redirect()->route('profile')->with('success', 'Registration successful! Welcome to the Furparent family.');
     }
 
+    // Resetting the Registration Flow
     public function showFurparentForm()
     {
         session()->forget('isFurbabyForm');

@@ -2,10 +2,7 @@
 <aside class="sticky px-0 top-0 flex flex-col items-center h-screen  border-r  bg-gray-900 border-white">
     <nav class="flex flex-col flex-1 space-y-6 pt-4">
         @php
-            $url = url('profile');
-            if (Request::segment(1) == 'profile') {
-                $url = url('community');
-            }
+            $url = url('community');
         @endphp
         <a href="{{$url}}" class="p-2.5 focus:outline-none transition-colors duration-200 rounded-lg text-gray-200 hover:bg-gray-800 flex justify-center">
             <svg width="30" height="27" viewBox="0 0 39 36" fill="none" xmlns="http://www.w3.org/2000/svg">
