@@ -162,12 +162,17 @@ window._.furbabyModal = {
         document.getElementById('loadingModal').classList.remove('hidden');
         window._.furbabyModal.editMode = isEdit;
         if(isEdit) {
-            document.getElementById('petprofile_img_hover').classList.remove('hidden');
-            document.getElementById('upload-image-furbaby').disabled = false;
+            if (document.getElementById('petprofile_img_hover')){
+                document.getElementById('petprofile_img_hover').classList.remove('hidden');
+                document.getElementById('upload-image-furbaby').disabled = false;
+            }
         }
         else {
-            document.getElementById('petprofile_img_hover').classList.add('hidden');
-            document.getElementById('upload-image-furbaby').disabled = true;
+            
+            if (document.getElementById('petprofile_img_hover')){
+                document.getElementById('petprofile_img_hover').classList.add('hidden');
+                document.getElementById('upload-image-furbaby').disabled = true;
+            }
         }
         await fetch(`/furbaby/${id}`, {
             method: 'GET',
