@@ -223,7 +223,7 @@ $_confirm_password = '********';
                     <label for="upload-image-furbaby">
                         <img id="petprofile_img" src="/img/pet.png" alt="Profile Picture" class="w-40 h-40 rounded-full object-cover hover:opacity-90">
                         <!-- Edit Icon (Visible on hover) -->
-                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
+                        <div id="petprofile_img_hover" class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                             </svg>
