@@ -108,5 +108,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>    
     @vite(['resources/js/app.js'])
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9519517676339673"
+     crossorigin="anonymous"></script>
 </body>
 </html>
