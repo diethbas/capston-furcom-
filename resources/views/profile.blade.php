@@ -32,7 +32,9 @@
                         var imageInput = document.getElementById('upload-image');
 
                         // Attach a change event listener to the input
-                        imageInput.addEventListener('change', function() {
+                        imageInput.addEventListener('change', async function() {
+                            
+                            document.getElementById('loadingModal').classList.remove('hidden');
                             // Create a FormData object
                             var formData = new FormData();
                             formData.append('image', imageInput.files[0]); // Get the selected file
@@ -41,7 +43,7 @@
                             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                             // Use fetch to send the file upload request
-                            fetch('{{ route('image.upload') }}', {
+                            await fetch('{{ route('image.upload') }}', {
                                 method: 'POST',
                                 headers: {
                                     'X-CSRF-TOKEN': csrfToken // Set the CSRF token in the headers
@@ -60,6 +62,8 @@
                             .catch(error => {
                                 console.log('Error:', error);
                             });
+                            
+                            document.getElementById('loadingModal').classList.remove('hidden');
                         });
                     </script>
                 </div>

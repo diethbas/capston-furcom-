@@ -71,6 +71,11 @@
         setMessageToId: function (id, firstname, lastname, img){
             var dataEvent = new CustomEvent('threadShow', {});
             document.getElementById('sendMessage-ToName').innerHTML = firstname + ' ' + lastname;
+
+            if (id !== document.getElementById('messageModal').dataset.idTo) {
+                const messageBodyView = document.getElementById('sendMessage-bodyview');
+                messageBodyView.innerHTML = '';
+            }
             document.getElementById('messageModal').dataset.idTo = id;
             document.getElementById('messageModal').dispatchEvent(dataEvent);
         }
@@ -207,8 +212,11 @@
         }
         // Show a message thread and play a notification sound.
         modal.addEventListener('threadShow', async function(e){
+            const loadingMsg = document.getElementById('sendMessage-loadingmsg');
+            loadingMsg.classList.remove('hidden');
             await getThread();
             await getMessages();
+            loadingMsg.classList.add('hidden');
             window._.mbox.notifSound();
         });
         // Generates HTML for each message
@@ -265,7 +273,10 @@
             var t = sessionStorage.getItem('t');
             var to = document.getElementById('messageModal').dataset.idTo;
             var content = document.getElementById('sendMessage-content').value;
-            
+            var icon = document.getElementById('msgButton-icon');
+            var icon_sending = document.getElementById('msgButton-icon-sending');
+            icon.classList.add('hidden');
+            icon_sending.classList.remove('hidden');
             if (content !== null && content.trim() !== ""){
                 var btn = document.getElementById('sendMessage-btn');
                 btn.disabled = true;
@@ -297,9 +308,13 @@
                     window._.mbox.messageOrganize('msg-from-me');
                     document.getElementById('sendMessage-content').value = null;
                     document.getElementById('sendMessage-btn').disabled = false;
+                    icon.classList.remove('hidden');
+                    icon_sending.classList.add('hidden');
                 })
                 .catch(error => { console.log(error)});
             }
+
+            
         });
     });
 </script>
@@ -316,6 +331,7 @@
         </div>
 
         <!-- Scrollable Messages Section -->
+        <div id="sendMessage-loadingmsg" class="text-white bg-blue-400 text-center hidden">Loading message...</div>
         <div id="sendMessage-bodyview" class="p-4 overflow-y-auto flex-grow custom-scrollbar">
         </div>
 
@@ -324,9 +340,17 @@
             <div class="relative">
                 <input id="sendMessage-content" type="text" class="block w-full py-2 px-4   rounded-lg focus:ring-blue-500 focus:border-blue-900 bg-gray-700 text-white placeholder-gray-400" placeholder="Type your message..." autocomplete="off">
                 <button id="sendMessage-btn" class="absolute right-3 top-2.5 text-blue-400 hover:text-blue-900">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 20V4L22 12L3 20ZM5 17L16.85 12L5 7V10.5L11 12L5 13.5V17ZM5 17V12V7V10.5V13.5V17Z" fill="#3F83F8"/>
-                    </svg>
+                    <span id="msgButton-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 20V4L22 12L3 20ZM5 17L16.85 12L5 7V10.5L11 12L5 13.5V17ZM5 17V12V7V10.5V13.5V17Z" fill="#3F83F8"/>
+                        </svg>
+                    </span>
+                    <span id="msgButton-icon-sending" class="hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="animate-spin h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path stroke="currentColor" stroke-width="4" d="M4 12a8 8 0 0116 0" />
+                        </svg>
+                    </span>
                 </button>                
             </div>
         </div>

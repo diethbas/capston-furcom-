@@ -11,6 +11,10 @@
         <div class="container flex items-center justify-center min-h-screen px-6 mx-auto">
             <form id="loginForm" class="w-full max-w-md text-center" method="POST">
                 @csrf 
+                
+                @if(session()->has('successMessage'))
+                @include('components.success')
+                @endif
                 <!-- Logo -->
                 <a href="{{ route('home')}}">
                 <img class="mx-auto w-auto h-7 sm:h-8" src="/img/logo.png" alt="Logo">
@@ -18,6 +22,7 @@
 
                 <!-- Welcome Back Heading -->
                 <h1 class="mt-3 text-2xl font-semibold capitalize sm:text-3xl text-white">Welcome Back</h1>
+
 
                 <!-- Email Input -->
                 <div class="relative flex items-center mt-8">
