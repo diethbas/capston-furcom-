@@ -90,8 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/furbaby/missingTag/{id}', [FurbabiesController::class, 'tagAsMissingOrFound'])->name('furbaby.missing');
     Route::post('/furbaby/upload', [FurbabiesController::class, 'uploadMedia'])->name('media.upload');
     Route::post('/image.upload', [ImageUploadController::class, 'uploadImage'])->name('image.upload');
-    Route::post('/image.upload', [ImageUploadController::class, 'uploadImage'])->name('image.upload');
-    
+    Route::post('/image.upload.pet', [ImageUploadController::class, 'uploadImagePet'])->name('image.upload.pet');
     Route::post('/media/delete/{id}', [FurbabiesController::class, 'deleteMedia'])->name('media.delete');
 });
 

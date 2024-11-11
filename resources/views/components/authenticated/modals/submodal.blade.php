@@ -219,14 +219,76 @@ $_confirm_password = '********';
                     {{-- options within a dropdown list --}}
                 </div>
                 {{-- Furbabies Profile --}}
-                <label class="w-40 h-40 bg-gray-500 rounded-full flex items-center justify-center mb-4 mt-8">
-                    <img id="petprofile_img" src="/img/pet.png" alt="Profile Picture" class="w-full h-full rounded-full object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                    </div>                    
-                </label>
+                <div class="relative group w-40 h-40 bg-gray-500 rounded-full flex items-center justify-center mb-4 mt-8">
+                    <label for="upload-image-furbaby">
+                        <img id="petprofile_img" src="/img/pet.png" alt="Profile Picture" class="w-40 h-40 rounded-full object-cover hover:opacity-90">
+                        <!-- Edit Icon (Visible on hover) -->
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>                   
+                    </label>
+                    <!-- Image Input -->
+                    <input type="file" id="upload-image-furbaby" class="hidden" accept="image/*" />
+                    {{-- Upload Image --}}
+                    <script>
+                        var imageInputPet = document.getElementById('upload-image-furbaby');
+
+                        // Attach a change event listener to the input
+                        imageInputPet.addEventListener('change', function() {
+                            // Create a FormData object
+                            
+                            document.getElementById('loadingModal').classList.remove('hidden');
+                            var formData = new FormData();
+                            formData.append('img', imageInputPet.files[0]); 
+                            formData.append('id', window._.furbabyModal.id); 
+
+                            // Get CSRF token from meta tag
+                            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                            var t = sessionStorage.getItem('t');
+                            // Use fetch to send the file upload request
+                            fetch('{{ route('image.upload.pet') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': 'Bearer ' + t,
+                                    'X-CSRF-TOKEN': csrfToken // Set the CSRF token in the headers
+                                },
+                                body: formData // Send the form data
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json(); // Parse the response JSON
+                            })
+                            .then(data => {
+                                const srcImg = document.getElementById('petprofile_img').src;
+                                const url = new URL(srcImg);
+
+                                const imgs = document.querySelectorAll(`img[src="${url.pathname}"]`);
+
+                                if(imgs) {
+                                    if (imgs.length === 1) {
+                                        imgs[0].src = data.image_url; // Directly update the single image
+                                    }
+                                    if (imgs.length > 1) {
+                                        imgs.forEach(img => {
+                                            img.src = data.image_url;
+                                        });
+                                    }
+                                }
+                                // Optionally, update the src of the original image
+                                document.getElementById('petprofile_img').src = data.image_url;
+                                document.getElementById('loadingModal').classList.add('hidden');
+                            })
+                            .catch(error => {
+                                console.log('Error:', error);
+                            });
+                        });
+                    </script>
+                </div>
                 <p id="petprofile_name" class="text-white text-lg font-bold mb-2">Name</p>
                 <p id="petprofile_age" class="text-gray-300 text-sm mb-2">Age:</p>
                 <div class="flex justify-center">

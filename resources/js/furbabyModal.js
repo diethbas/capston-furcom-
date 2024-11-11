@@ -159,6 +159,7 @@ window._.furbabyModal = {
         .catch(error => {console.error(error)});
     },
     showModal: async function(id, isEdit = false) {
+        document.getElementById('loadingModal').classList.remove('hidden');
         window._.furbabyModal.editMode = isEdit;
         await fetch(`/furbaby/${id}`, {
             method: 'GET',
@@ -232,6 +233,6 @@ window._.furbabyModal = {
             document.getElementById('bigModal').classList.remove('hidden');
         })
         .catch(error => {console.error(error)});
-        
+        document.getElementById('loadingModal').classList.add('hidden');
     }
 }

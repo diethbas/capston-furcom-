@@ -41,6 +41,7 @@ class RegistrationController extends Controller
             'name' => 'required|string|max:255',
             'age' => 'required|integer',
             'description' => 'nullable|string',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:20000', 
         ]);
 
         // Retrieve furparent data from session
@@ -51,6 +52,13 @@ class RegistrationController extends Controller
         }
 
         $img = "/";
+        
+        $imagePath = '/';
+        if ($request->hasFile('img')) {
+            $imageName = time() . '.' . $request->img->extension();
+            $request->img->move(public_path('images'), $imageName);
+            $imagePath = '/images/' . $imageName;
+        }
 
         // Create the furparent record
         $furparent = Furparents::create([
@@ -69,7 +77,7 @@ class RegistrationController extends Controller
             'furparentID' => $furparent->id,
             'name' => $request->input('name'),
             'age' => $request->input('age'),
-            'img' => $img,
+            'img' => $imagePath,
             'ismissing' => false,
             'description' => $request->input('description'),
         ]);

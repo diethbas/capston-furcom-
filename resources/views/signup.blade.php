@@ -35,7 +35,7 @@
             <form method="POST" action="{{ route('signup.furparent') }}" class="sm:p-4 p-2 w-full peer-checked:hidden" style="overflow-y:auto;">
                 @csrf
                 <div class="mb-4">
-                    <h3 class="text-gray-900 font-serif text-xl  font-extrabold max-md:text-center">Furparents</h3>
+                    <h3 class="pb-4 text-gray-900 text-xl font-extrabold max-md:text-center pt-2">Furparents</h3>
                 </div>
     
                 <div class="grid lg:grid-cols-2 gap-2">
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('signup.store') }}" class="peer-checked:block sm:p-4 p-2 w-full" style="overflow-y: auto; max-height: 100%;" id="furbaby-form">
+            <form method="POST" action="{{ route('signup.store') }}" class="peer-checked:block sm:p-4 p-2 w-full" style="overflow-y: auto; max-height: 100%;" id="furbaby-form" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Hidden Fields for Furparent Data (retrieved from session) -->
@@ -147,6 +147,38 @@
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div>
+                            <label class="text-gray-800 text-xs mb-1 block">Furbaby Picture</label>
+                            <input type="file" name="img" id="img" accept="image/*" class="block py-2.5 px-0 w-full text-sm  bg-transparent  appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" onchange="previewImage(event)" required />
+                            @error('img')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                            <!-- Image Preview Container -->
+                            <div id="imagePreviewContainer" class="hidden mt-2 rounded border border-gray-300 p-2 bg-gray-100">
+                                <img id="imagePreview" src="#" alt="Image Preview" class="w-32 h-32 object-cover rounded" />
+                            </div>
+                        </div>
+                        <script>
+                            function previewImage(event) {
+                                const input = event.target;
+                                const previewContainer = document.getElementById('imagePreviewContainer');
+                                const preview = document.getElementById('imagePreview');
+                        
+                                if (input.files && input.files[0]) {
+                                    const reader = new FileReader();
+                        
+                                    reader.onload = function(e) {
+                                        preview.src = e.target.result;
+                                        previewContainer.classList.remove('hidden'); // Show the container for preview
+                                    };
+                        
+                                    reader.readAsDataURL(input.files[0]);
+                                } else {
+                                    preview.src = '#';
+                                    previewContainer.classList.add('hidden'); // Hide preview if no file is selected
+                                }
+                            }
+                        </script>
                     </div>
 
                     <div class="pt-3 mb-2">

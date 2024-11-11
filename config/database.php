@@ -46,8 +46,8 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '5.tcp.ngrok.io'),
-            'port' => env('DB_PORT', '25019'),
+            'host' => env('DB_HOST', 'furcomdb.mysql.database.azure.com'),
+            'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
@@ -58,9 +58,10 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            'options' => array_filter([
+                PDO::MYSQL_ATTR_SSL_CA     => storage_path('certs/DigiCertGlobalRootCA.crt.pem'),
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => env('DB_SSL_REQUIRE') ? true : false,
+            ]),
         ],
 
         'pgsql' => [
