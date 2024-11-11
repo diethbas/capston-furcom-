@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="/img/favicon.png">
     @vite(['resources/css/app.css'])
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9519517676339673"
+     crossorigin="anonymous"></script>
+    <script>
+        if (window.location.hostname === 'myslambook.net') {
+            // Redirect to "furcom.myslambook.net" while preserving the path and query parameters
+            window.location.href = window.location.href.replace('myslambook.net', 'furcom.myslambook.net');
+        }
+    </script>
     <title>Furcom</title>
 </head>
 <body class="bg-gray-900">
@@ -31,7 +39,5 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>   
     @vite(['resources/js/app.js']) 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9519517676339673"
-     crossorigin="anonymous"></script>
 </body>
 </html>
