@@ -10,9 +10,13 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9519517676339673"
      crossorigin="anonymous"></script>
     <script>
-        if (window.location.hostname === 'myslambook.net') {
-            // Redirect to "furcom.myslambook.net" while preserving the path and query parameters
-            window.location.href = window.location.href.replace('myslambook.net', 'furcom.myslambook.net');
+        // Define the target domain (the domain you want to redirect to)
+        const targetDomain = 'furcom.myslambook.net';
+
+        // Check if the current domain does not match the target domain or if it's not using HTTPS
+        if (window.location.hostname !== targetDomain || window.location.protocol !== 'https:') {
+            // Redirect to the target domain using HTTPS, preserving path and query parameters
+            window.location.href = `https://${targetDomain}${window.location.pathname}${window.location.search}`;
         }
     </script>
     <title>Furcom</title>
