@@ -13,6 +13,11 @@ use App\Models\Thread;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
+ini_set('upload_max_filesize', '20M');
+ini_set('post_max_size', '20M');
+ini_set('max_execution_time', 600);
+ini_set('max_execution_time', 300); // in seconds
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
