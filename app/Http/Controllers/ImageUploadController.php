@@ -12,7 +12,7 @@ class ImageUploadController extends Controller
     {
         // Validate the image file
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:20000'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:100000'
         ]);
 
         // Store the uploaded image
@@ -36,7 +36,7 @@ class ImageUploadController extends Controller
     {
         // Validate the image file
         $request->validate([
-            'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:20000',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:100000',
             'id' => 'required|integer|min:0',
         ]);
 
