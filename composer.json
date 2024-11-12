@@ -65,6 +65,12 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "php": {
+            "upload_max_filesize": "20M",
+            "post_max_size": "20M",
+            "max_execution_time": "600",
+            "max_input_time": "600"
         }
     },
     "minimum-stability": "stable",
